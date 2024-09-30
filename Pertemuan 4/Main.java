@@ -1,22 +1,33 @@
-// Main class
+import java.time.LocalTime;
+
 public class Main {
     public static void main(String[] args) {
-        // Membuat objek TicketMachine dengan harga tiket 15
-        TicketMachine mesinTiket = new TicketMachine(15);
+        // Mengambil waktu sekarang dari perangkat
+        LocalTime waktuSekarang = LocalTime.now();
+        int jam = waktuSekarang.getHour();
+        int menit = waktuSekarang.getMinute();
 
-        // Memasukkan uang ke mesin
-        mesinTiket.insertMoney(20);
-        
-        // Mencoba membeli tiket
-        mesinTiket.dispenseTicket();
-        
-        // Menampilkan saldo saat ini
-        System.out.println("Saldo tersisa: " + mesinTiket.getCurrentBalance());
+        // Membuat objek ClockDisplay dengan waktu sekarang
+        ClockDisplay clock = new ClockDisplay(jam, menit);
 
-        // Menampilkan status mesin
-        mesinTiket.showMachineStatus();
-        
-        // Mengembalikan sisa saldo
-        mesinTiket.refundBalance();
+        // Menampilkan waktu awal yang diambil dari perangkat
+        System.out.println("Waktu awal dari perangkat: " + clock.ambilWaktu());
+
+        // Loop tak hingga untuk menambah waktu tiap menit
+        while (true) {
+            // Tambahkan satu menit
+            clock.detikWaktu();
+
+            // Tampilkan waktu yang diperbarui
+            System.out.println("Waktu sekarang: " + clock.ambilWaktu());
+
+            // Tunggu selama satu menit (60.000 milidetik)
+            try {
+                Thread.sleep(60000);  // 1 menit
+            } catch (InterruptedException e) {
+                System.out.println("Proses dihentikan.");
+                break;  // Menghentikan loop jika terjadi interrupt
+            }
+        }
     }
 }
